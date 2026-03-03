@@ -1,9 +1,8 @@
+import type React from "react"
+import type { LoginForm } from "./types"
 import { useForm } from "@tanstack/react-form"
+import Button from "../../shared/ui/Button"
 
-type LoginForm = {
-    email: string,
-    password: string,
-}
 
 const defaultLoginValues: LoginForm = {
     email: "",
@@ -19,7 +18,7 @@ export default function LoginForm() {
         }
     })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
         e.stopPropagation()
         form.handleSubmit()
@@ -58,7 +57,8 @@ export default function LoginForm() {
                 )}
             />
 
-            <button type="submit">Login</button>
+            <Button type="submit">Login</Button>
+            <Button type="text">Google</Button>
         </form>
     )
 }
