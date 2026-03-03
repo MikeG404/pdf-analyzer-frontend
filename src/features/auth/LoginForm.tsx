@@ -1,7 +1,7 @@
 import type React from "react"
 import type { LoginForm } from "./types"
 import { useForm } from "@tanstack/react-form"
-import { LoginFormSchema } from "./schema"
+import { LoginFormSchema } from "./schemas"
 import Button from "../../shared/ui/Button"
 
 const defaultLoginValues: LoginForm = {
