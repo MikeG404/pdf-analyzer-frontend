@@ -1,6 +1,8 @@
 import type React from "react"
 import type { LoginForm } from "./types"
 import { useForm } from "@tanstack/react-form"
+import { useMutation } from "@tanstack/react-query"
+import axios from "axios"
 import { LoginFormSchema } from "./schemas"
 import Button from "../../shared/ui/Button"
 
@@ -10,11 +12,16 @@ const defaultLoginValues: LoginForm = {
 }
 
 export default function LoginForm() {
+    const mutation = useMutation({
+        mutationFn: (login: LoginForm) => {
+            return axios.post("http://localhost:3000/api/auth/login", login)
+        }
+    })
 
     const form = useForm({
         defaultValues: defaultLoginValues,
         onSubmit: async ({ value }) => {
-            console.log("Login ", value)
+            await mutation.mutateAsync(value)
         }
     })
 
@@ -79,8 +86,12 @@ export default function LoginForm() {
                 )}
             />
 
-            <Button type="submit">Login</Button>
-            <Button type="text">Google</Button>
+            {mutation.isError ? (
+                <div>Invalid email or password</div>
+            ) : null}
+
+            <Button isDisabled={mutation.isPending} type="submit">{mutation.isPending ? "Wait..." : "Login"}</Button>
+            <Button isDisabled={mutation.isPending} type="text">Connect with Google</Button>
         </form>
     )
 }
