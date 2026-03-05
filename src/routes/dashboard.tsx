@@ -1,7 +1,15 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import useAuth from "../shared/hooks/useAuth";
 
+const TOKEN_KEY = "auth_token"
+
 export const Route = createFileRoute('/dashboard')({
+    beforeLoad: () => {
+        const token = localStorage.getItem(TOKEN_KEY)
+        if (!token) {
+            throw redirect({ to: "/auth" })
+        }
+    },
     component: DashboardPage,
 })
 
