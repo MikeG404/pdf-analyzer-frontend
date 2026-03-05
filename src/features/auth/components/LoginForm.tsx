@@ -1,10 +1,10 @@
 import type React from "react"
-import type { LoginForm } from "./types"
+import type { LoginForm } from "../types"
 import { useForm } from "@tanstack/react-form"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
-import { LoginFormSchema } from "./schemas"
-import Button from "../../shared/ui/Button"
+import { LoginFormSchema } from "../schemas"
+import Button from "../../../shared/ui/Button"
 
 const BASE_URL = "http://localhost:3000/api"
 
@@ -38,12 +38,6 @@ export default function LoginForm() {
             <form onSubmit={handleSubmit}>
                 <form.Field
                     name="email"
-                    validators={{
-                        onBlur: ({ value }) => {
-                            const result = LoginFormSchema.shape.email.safeParse(value)
-                            return result.success ? undefined : result.error.issues[0].message
-                        }
-                    }}
                     children={(field) => (
                         <div>
                             <label htmlFor={field.name}>Email :</label>
@@ -54,22 +48,11 @@ export default function LoginForm() {
                                 onChange={(e) => field.handleChange(e.target.value)}
                                 onBlur={field.handleBlur}
                             />
-                            {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
-                                <span>
-                                    {field.state.meta.errors.join(', ')}
-                                </span>
-                            )}
                         </div>
                     )}
                 />
                 <form.Field
                     name="password"
-                    validators={{
-                        onBlur: ({ value }) => {
-                            const result = LoginFormSchema.shape.password.safeParse(value)
-                            return result.success ? undefined : result.error.issues[0].message
-                        }
-                    }}
                     children={(field) => (
                         <div>
                             <label htmlFor={field.name}>Password :</label>
@@ -80,11 +63,6 @@ export default function LoginForm() {
                                 onChange={(e) => field.handleChange(e.target.value)}
                                 onBlur={field.handleBlur}
                             />
-                            {field.state.meta.isTouched && field.state.meta.errors.length > 0 && (
-                                <span>
-                                    {field.state.meta.errors.join(', ')}
-                                </span>
-                            )}
                         </div>
                     )}
                 />
