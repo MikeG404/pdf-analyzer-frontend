@@ -3,8 +3,9 @@ import type { LoginForm } from "../types"
 import { useForm } from "@tanstack/react-form"
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
-import { LoginFormSchema } from "../schemas"
 import Button from "../../../shared/ui/Button"
+import useAuth from "../../../shared/hooks/useAuth"
+import { useNavigate } from "@tanstack/react-router"
 
 const BASE_URL = "http://localhost:3000/api"
 
@@ -14,9 +15,19 @@ const defaultLoginValues: LoginForm = {
 }
 
 export default function LoginForm() {
+    const { login } = useAuth()
+    const navigate = useNavigate()
+
     const loginMutation = useMutation({
         mutationFn: (login: LoginForm) => {
             return axios.post(`${BASE_URL}/auth/login`, login)
+        },
+        onSuccess: (response) => {
+            login({
+                token: response.data.token
+            })
+
+            navigate({ to: "/dashboard"})
         }
     })
 

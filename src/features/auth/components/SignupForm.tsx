@@ -87,6 +87,10 @@ export default function SignUpForm() {
                 )}
             />
 
+            {signUpMutation.isSuccess && 
+                <div>Vous êtes bien inscrit</div>
+            }
+
             <Button type="submit">SignUp</Button>
         </form>
     )
